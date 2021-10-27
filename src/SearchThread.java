@@ -1,21 +1,50 @@
 public class SearchThread implements Runnable {
 
-    private char wordSearchArray[][];
-    private String word;
-    private int rows, columns, wordCount, xInc, yInc;
+    private static int wordCount;
+    private char[][] wordSearchArray;
+    private String direction;
 
-    public SearchThread(char[][] wordSearchArray, String word, int xInc, int yInc) {
+    public SearchThread(char[][] wordSearchArray, String direction) {
         this.wordSearchArray = wordSearchArray;
-        this.word = word;
-        this.rows = wordSearchArray.length;
-        this.columns = wordSearchArray[0].length;
-        this.wordCount = 0;
-        this.xInc = xInc;
-        this.yInc = yInc;
+        this.direction = direction;
     }
 
     @Override
     public void run() {
-        
+
+        switch (this.direction) {
+            case "vertical" :
+                verticalSearch(wordSearchArray);
+            case "horizontal" :
+                horizontalSearch(wordSearchArray);
+            case "diagonal" :
+                diagonalSearch(wordSearchArray);
+                break;
+        }
+
+    }
+
+    public static void verticalSearch(char[][] wordSearchArray) {
+
+        String str = null;
+
+        for (int row = 0; row < wordSearchArray.length; row++) {
+            for (int col = 0; col < wordSearchArray.length - 2; col++) {
+                if (wordSearchArray[row][col] == 102 && wordSearchArray[row][col + 1] == 117 && wordSearchArray[row][col + 2] == 110) {
+                    wordCount++;
+                }
+            }
+        }
+
+    }
+
+    public static void horizontalSearch(char[][] wordSearchArray) {
+    }
+
+    public static void diagonalSearch(char[][] wordSearchArray) {
+    }
+
+    public int getWordCount() {
+        return wordCount;
     }
 }
