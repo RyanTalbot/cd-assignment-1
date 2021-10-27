@@ -52,6 +52,26 @@ public class SearchThread implements Runnable {
     }
 
     public static void diagonalSearch(char[][] wordSearchArray) {
+
+        String str = null;
+
+        // Upper diagonal search
+        for (int row = 2; row < wordSearchArray.length; row++) {
+            for (int col = 0; col < wordSearchArray.length - 2; col++) {
+                if (wordSearchArray[row][col] == 102 && wordSearchArray[row - 1][col + 1] == 117 && wordSearchArray[row - 2][col + 2] == 110) {
+                    wordCount++;
+                }
+            }
+        }
+
+        // Lower diagonal search
+        for (int row = 0; row < wordSearchArray.length - 2; row++) {
+            for (int col = 0; col < wordSearchArray.length - 2; col++) {
+                if (wordSearchArray[row][col] == 102 && wordSearchArray[row + 1][col + 1] == 117 && wordSearchArray[row + 2][col + 2] == 110) {
+                    wordCount++;
+                }
+            }
+        }
     }
 
     public int getWordCount() {
