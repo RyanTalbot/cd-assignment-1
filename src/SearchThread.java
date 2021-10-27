@@ -39,6 +39,16 @@ public class SearchThread implements Runnable {
     }
 
     public static void horizontalSearch(char[][] wordSearchArray) {
+
+        String str = null;
+
+        for (int row = 0; row < wordSearchArray.length - 2; row++) {
+            for (int col = 0; col < wordSearchArray.length; col++) {
+                if (wordSearchArray[row][col] == 102 && wordSearchArray[row + 1][col] == 117 && wordSearchArray[row + 2][col] == 110) {
+                    wordCount++;
+                }
+            }
+        }
     }
 
     public static void diagonalSearch(char[][] wordSearchArray) {
