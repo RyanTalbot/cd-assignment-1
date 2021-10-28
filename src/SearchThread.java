@@ -1,6 +1,8 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class SearchThread implements Runnable {
 
-    private static int wordCount;
+    static AtomicInteger wordCount = new AtomicInteger(0);
     private char[][] wordSearchArray;
     private String direction;
 
@@ -13,11 +15,11 @@ public class SearchThread implements Runnable {
     public void run() {
 
         switch (this.direction) {
-            case "vertical" :
+            case "vertical":
                 verticalSearch(wordSearchArray);
-            case "horizontal" :
+            case "horizontal":
                 horizontalSearch(wordSearchArray);
-            case "diagonal" :
+            case "diagonal":
                 diagonalSearch(wordSearchArray);
                 break;
         }
@@ -26,12 +28,10 @@ public class SearchThread implements Runnable {
 
     public static void verticalSearch(char[][] wordSearchArray) {
 
-        String str = null;
-
         for (int row = 0; row < wordSearchArray.length; row++) {
             for (int col = 0; col < wordSearchArray.length - 2; col++) {
                 if (wordSearchArray[row][col] == 102 && wordSearchArray[row][col + 1] == 117 && wordSearchArray[row][col + 2] == 110) {
-                    wordCount++;
+                    incrementWordCount();
                 }
             }
         }
@@ -40,12 +40,10 @@ public class SearchThread implements Runnable {
 
     public static void horizontalSearch(char[][] wordSearchArray) {
 
-        String str = null;
-
         for (int row = 0; row < wordSearchArray.length - 2; row++) {
             for (int col = 0; col < wordSearchArray.length; col++) {
                 if (wordSearchArray[row][col] == 102 && wordSearchArray[row + 1][col] == 117 && wordSearchArray[row + 2][col] == 110) {
-                    wordCount++;
+                    incrementWordCount();
                 }
             }
         }
@@ -53,13 +51,11 @@ public class SearchThread implements Runnable {
 
     public static void diagonalSearch(char[][] wordSearchArray) {
 
-        String str = null;
-
         // Upper diagonal search
         for (int row = 2; row < wordSearchArray.length; row++) {
             for (int col = 0; col < wordSearchArray.length - 2; col++) {
                 if (wordSearchArray[row][col] == 102 && wordSearchArray[row - 1][col + 1] == 117 && wordSearchArray[row - 2][col + 2] == 110) {
-                    wordCount++;
+                    incrementWordCount();
                 }
             }
         }
@@ -68,13 +64,17 @@ public class SearchThread implements Runnable {
         for (int row = 0; row < wordSearchArray.length - 2; row++) {
             for (int col = 0; col < wordSearchArray.length - 2; col++) {
                 if (wordSearchArray[row][col] == 102 && wordSearchArray[row + 1][col + 1] == 117 && wordSearchArray[row + 2][col + 2] == 110) {
-                    wordCount++;
+                    incrementWordCount();
                 }
             }
         }
     }
 
-    public int getWordCount() {
-        return wordCount;
+    public static void incrementWordCount() {
+        wordCount.incrementAndGet();
+    }
+
+    public static int getWordCount() {
+        return wordCount.get();
     }
 }
