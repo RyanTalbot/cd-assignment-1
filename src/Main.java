@@ -8,11 +8,24 @@ public class Main {
         Random randomGenerator = new Random();
         char[][] charArray = new char[1000][1000];
 
+
         for (int i = 0; i < charArray.length; i++) {
             for (int j = 0; j < charArray[i].length; j++) {
                 charArray[i][j] = (char) (randomGenerator.nextInt(26) + 97);
             }
         }
+
+//        charArray[0][0] = 'f';
+//        charArray[1][1] = 'u';
+//        charArray[2][2] = 'n';
+//
+//        charArray[5][3] = 'f';
+//        charArray[6][4] = 'u';
+//        charArray[7][5] = 'n';
+//
+//        charArray[2][7] = 'f';
+//        charArray[3][8] = 'u';
+//        charArray[4][9] = 'n';
 
         for (int k = 0; k < charArray.length; k++) {
             System.out.printf("%-3d", k);
@@ -27,19 +40,13 @@ public class Main {
         }
         // Core given code finish
 
-        String word = "fun";
-        int totalCount;
+        SearchThread verticalSearch = new SearchThread(charArray, "vertical");
+        SearchThread horizontalSearch = new SearchThread(charArray, "horizontal");
+        SearchThread diagonalSearch = new SearchThread(charArray, "diagonal");
 
-        int[] x = {0, 1, 1};
-        int[] y = {1, 0, 1};
-
-        SearchThread thread1 = new SearchThread(charArray, x[0], y[0], word);
-        SearchThread thread2 = new SearchThread(charArray, x[1], y[1], word);
-        SearchThread thread3 = new SearchThread(charArray, x[2], y[2], word);
-
-        Thread threadT1 = new Thread(thread1);
-        Thread threadT2 = new Thread(thread2);
-        Thread threadT3 = new Thread(thread3);
+        Thread threadT1 = new Thread(verticalSearch);
+        Thread threadT2 = new Thread(horizontalSearch);
+        Thread threadT3 = new Thread(diagonalSearch);
 
         long start = System.currentTimeMillis();
 
@@ -52,8 +59,9 @@ public class Main {
 
         long end = System.currentTimeMillis();
 
-        totalCount = thread1.getWordCount() + thread2.getWordCount() + thread3.getWordCount();
-        System.out.println("Count: " + totalCount);
+        int totalCount = SearchThread.getWordCount();
+
+        System.out.println("Count: " + (totalCount));
         System.out.println("Time: " + (end - start));
     }
 }
